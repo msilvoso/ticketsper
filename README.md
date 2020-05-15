@@ -1,2 +1,4 @@
 # ticketsper
-Bash script to graph a Request Tracker # tickets / day or week
+Bash script to graph Best Practical Request Tracker # tickets / day or week
+
+Uses gnuplot
