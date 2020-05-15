@@ -1,9 +1,22 @@
 set xdata time
 set format x "%m-%d"
-set timefmt "%m-%d"
-set xrange [XFROMX:XTOX]
-set yrange [0:100]
+set timefmt "%Y-%m-%d"
+set xrange [XFROMXTOX]
+set autoscale y
 set style fill solid 1.00 border 0
-set term png
+set terminal png size 1920,1080 background '#002b36'
+# change a color of border.
+set border lw 3 lc rgb "#93a1a1"
+
+# change text colors of  tics
+set xtics textcolor rgb "#93a1a1"
+set ytics textcolor rgb "#93a1a1"
+
+# change text colors of labels
+set xlabel "X" textcolor rgb "#93a1a1"
+set ylabel "Y" textcolor rgb "#93a1a1"
+
+# change a text color of key
+set key textcolor rgb "#93a1a1"
 set output "/tmp/ticketsplot.png"
-plot "/tmp/perweek" using 1:2:xtic(1) title "Tickets per week" with boxes, "/tmp/perday" using 1:2 title "Tickets per day" with lines lt 3 lc rgb 'red'
+plot "/tmp/perweek" using 1:2:xtic(1) title "Tickets per week" with boxes linecolor rgb '#073642', "/tmp/perday" using 1:2 title "Tickets per day" with lines lw 4 lc rgb '#cb4b16'
