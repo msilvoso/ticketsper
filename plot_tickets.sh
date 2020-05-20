@@ -33,7 +33,7 @@ $GNUPLOT $GNUPLOT_SCRIPT_DEST
 
 cp /tmp/ticketsplot.png /var/www/ticketsper/
 
-mysql --defaults-extra-file=/etc/mysql/debian.cnf -N -B -e "SELECT subject FROM Tickets WHERE Created>='$FIRST_DATE';" rthelp | iconv -f UTF-8 -t ASCII//TRANSLIT | perl -pe 's/[^\s\w]/ /g' > /tmp/wordcloud
+mysql --defaults-extra-file=/etc/mysql/debian.cnf -N -B -e "SELECT subject FROM Tickets WHERE Created>='$FIRST_DATE';" rthelp | iconv -f UTF-8 -t ASCII//TRANSLIT | perl -pe 's/[^\s\w]/ /g' | uniq -i > /tmp/wordcloud
 
 stopwords=()
 for word in $(cat /usr/local/etc/stopwords);do
