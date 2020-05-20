@@ -33,7 +33,7 @@ $GNUPLOT $GNUPLOT_SCRIPT_DEST
 
 cp /tmp/ticketsplot.png /var/www/ticketsper/
 
-mysql --defaults-extra-file=/etc/mysql/debian.cnf -N -B -e "SELECT subject FROM Tickets;" rthelp | iconv -f UTF-8 -t ASCII//TRANSLIT | perl -pe 's/[^\s\w]/ /g' > /tmp/wordcloud
+mysql --defaults-extra-file=/etc/mysql/debian.cnf -N -B -e "SELECT subject FROM Tickets WHERE Created>='$FIRST_DATE';" rthelp | iconv -f UTF-8 -t ASCII//TRANSLIT | perl -pe 's/[^\s\w]/ /g' > /tmp/wordcloud
 
 stopwords=()
 for word in $(cat /usr/local/etc/stopwords);do
@@ -42,5 +42,4 @@ done
 stopregex=$(join "${stopwords[@]}" | perl -pe 's/\|/\\s|\\s/g')
 perl -pi -e "s/($stopregex)/ /gi" /tmp/wordcloud
 perl -pi -e "s/($stopregex)/ /gi" /tmp/wordcloud
-# stopwords argument does not seem to work
-wordcloud_cli --min_word_length 3 --mode RGBA --background 'rgba(255,255,255,0)' --width 1920 --height 1080 --colormap solarized --text /tmp/wordcloud --imagefile /var/www/ticketsper/wordcloud.png
+wordcloud_cli --min_word_length 3 --mode RGBA --background 'rgba(255,255,255,0)' --width 1920 --height 1080 --colormap solarized --stopwords /usr/local/etc/stopwords --text /tmp/wordcloud --imagefile /var/www/ticketsper/wordcloud.png
